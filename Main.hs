@@ -1,15 +1,14 @@
 module Main where
 
-import           Control.Monad                        (join)
-import           Control.Applicative                  ((<$>))
-import           Controllers.Home                     (home, addMessage, messages)
-import           Data.Maybe                           (fromMaybe)
-import           Network.Wai.Middleware.RequestLogger (logStdoutDev)
-import           Network.Wai.Middleware.Static        (addBase, noDots,
-                                                       staticPolicy, (>->))
-import           System.Environment                   (lookupEnv)
-import           Text.Read                            (readMaybe)
-import           Web.Scotty                           (middleware, scotty)
+import Control.Monad                        (join)
+import Control.Applicative                  ((<$>))
+import Controllers.Messages                 (addMessage, messages)
+import Data.Maybe                           (fromMaybe)
+import Network.Wai.Middleware.RequestLogger (logStdoutDev)
+import Network.Wai.Middleware.Static        (addBase, noDots, staticPolicy, (>->))
+import System.Environment                   (lookupEnv)
+import Text.Read                            (readMaybe)
+import Web.Scotty                           (middleware, scotty)
 
 main :: IO ()
 main = do
@@ -19,4 +18,4 @@ main = do
   scotty port $ do
          middleware $ staticPolicy (noDots >-> addBase "static/images") -- for favicon.ico
          middleware logStdoutDev
-         home >> addMessage >> messages
+         addMessage >> messages
