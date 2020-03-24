@@ -3,7 +3,7 @@ version:             0.1.0.0
 synopsis:            À nos soignants
 description:         A golden book
 homepage:            https://github.com/dmjio/scotty-starter
-license:             GNU Affero General Public License v3.0
+license:             AGPL-3.0
 author:              Bertrand Junqua
 maintainer:          your.name@gmail.com
 copyright:           Bertrand (c) 2020
@@ -21,8 +21,6 @@ executable app
                        scotty,
                        clay,
                        text,
-                       blaze-html,
-                       blaze-markup,
                        aeson
   default-language:    Haskell2010
 

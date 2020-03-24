@@ -6,7 +6,6 @@ module Controllers.Messages
     , messages
     ) where
 
-import           Views.Home (homeView)
 import           Web.Scotty (ActionM, ScottyM, get, html, json, jsonData, param, post)
 import           Data.Aeson ((.:), FromJSON, ToJSON, parseJSON, withObject)
 import           GHC.Generics

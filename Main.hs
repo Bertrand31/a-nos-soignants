@@ -1,7 +1,6 @@
 module Main where
 
 import Control.Monad                        (join)
-import Control.Applicative                  ((<$>))
 import Controllers.Messages                 (addMessage, messages)
 import Data.Maybe                           (fromMaybe)
 import Network.Wai.Middleware.RequestLogger (logStdoutDev)
@@ -16,6 +15,6 @@ main = do
         . join
         . fmap readMaybe <$> lookupEnv "PORT"
   scotty port $ do
-         middleware $ staticPolicy (noDots >-> addBase "static/images") -- for favicon.ico
+         middleware $ staticPolicy (noDots >-> addBase "Static")
          middleware logStdoutDev
          addMessage >> messages
