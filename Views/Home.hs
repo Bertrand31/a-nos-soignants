@@ -56,7 +56,3 @@ navBar = div ! class_ "navbar navbar-default navbar-static-top" $ div ! class_ "
              li ! class_ "active" $ a ! href "#" $ "Home"
              li $ a ! href "#about" $ "About"
              li $ a ! href "#contact" $ "Contact"
-
-
-
-

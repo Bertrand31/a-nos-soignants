@@ -1,32 +1,46 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
-
 module Controllers.Home
     ( home
-    , login
-    , post
+    , addMessage
+    , messages
     ) where
 
 import           Views.Home (homeView)
-import           Web.Scotty (ScottyM, get, html, json)
-import           Data.Aeson (ToJSON)
+import           Web.Scotty (ActionM, ScottyM, get, html, json, jsonData, param, post)
+import           Data.Aeson ((.:), FromJSON, ToJSON, parseJSON, withObject)
 import           GHC.Generics
+import           Data.Text
 
 home :: ScottyM ()
 home = get "/" homeView
 
-login :: ScottyM ()
-login = get "/login" $ html "login"
+-- Messages handling
 
-{-
-  Example data structure to demonstrate JSON serialization
--}
-data Post = Post
-  { postId    :: Int
-  , postTitle :: String } deriving Generic
+data Message = Message
+  { name        :: String
+  , email       :: String
+  , messageText :: String } deriving Generic
 
-instance ToJSON Post
+instance FromJSON Message where
+  parseJSON = withObject "Message" $ \m -> Message
+    <$> m .: "name"
+    <*> m .: "email"
+    <*> m .: "messageText"
 
-post :: ScottyM()
-post = get "/post" $ json $ Post 1 "Yello world"
+instance ToJSON Message
+
+writeMessage :: ActionM ()
+writeMessage = do
+  t <- jsonData
+  json (t :: Message)
+
+addMessage :: ScottyM ()
+addMessage = post "/add-message" writeMessage
+
+messages :: ScottyM()
+messages = get "/messages" $ json [
+    Message "Bertrand" "sample@ndd.com" "Ceci est mon message",
+    Message "Bertrand" "sample@ndd.com" "Ceci est mon message"
+  ]
